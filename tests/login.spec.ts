@@ -14,7 +14,7 @@ test.describe("Successful Login", () => {
         await page.locator('input[data-test="password"]').fill('secret_sauce')
         await page.locator('input[data-test="login-button"]').click()
         await expect(page).toHaveURL('/inventory.html')
-        
+
     })
 
 })
@@ -62,7 +62,7 @@ test.describe("Login with other users data", () => {
         await page.locator('input[data-test="password"]').last().fill('secret_sauce')
         await page.locator('input[data-test="login-button"]').click()
         await expect(page.locator('h3[data-test="error"]')).toHaveText(/locked out/)
-
+        
     })
 
     /*test('Problematic user', async ({ page }) => {
