@@ -1,0 +1,12 @@
+class*
+tsconfig*
+elements-search.spec.ts
+example.spec.ts
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
