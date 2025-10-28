@@ -2,8 +2,8 @@ import { Locator } from "@playwright/test"
 import BasePage from "../BasePage";
 
 export class ProductsDetailPage extends BasePage {
-    private readonly addToCartButton: Locator = this.page.locator('button', {hasText: "Add to Cart"})
-    private readonly removeButton: Locator = this.page.locator('button', {hasText: "Remove"})
+    public readonly addToCartButton: Locator = this.page.locator('button', {hasText: "Add to Cart"})
+    public readonly removeButton: Locator = this.page.locator('button', {hasText: "Remove"})
 
 
     async clickAddToCartButton(){
@@ -14,11 +14,11 @@ export class ProductsDetailPage extends BasePage {
         await this.removeButton.click()
     }
 
-    async getRemoveButton(){
+    /*async getRemoveButton(){
         return this.removeButton
     }
 
     async getAddToCartButton(){
         return this.addToCartButton
-    }
+    }*/
 }

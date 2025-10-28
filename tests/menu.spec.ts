@@ -11,12 +11,12 @@ test.beforeEach(async ({ page }) => {
     loginPage.loginWithCredentials('standard_user', 'secret_sauce')
 })
 test.describe("Menu test", () => {
-    test('Logging out of logged in user', async ({ page }) => {
+    test('Logging out of logged in user', async ({ }) => {
         await header.clickMenuButton()
         await header.clickLogoutButton()
-        await expect(page).toHaveURL("https://www.saucedemo.com/")
-        await expect(loginPage.userNameField).toHaveAttribute('placeholder', 'Username')
-        await expect(loginPage.passwordField).toHaveAttribute('placeholder', 'Password')
-        await expect(loginPage.loginButton).toHaveText("Login")
+        await header.checkURL("https://www.saucedemo.com/")
+        await header.checkAttriubute(loginPage.userNameField, 'placeholder', 'Username')
+        await header.checkAttriubute(loginPage.passwordField, 'placeholder', 'Password')
+        await header.checkText(loginPage.loginButton, "Login")
     })
 })

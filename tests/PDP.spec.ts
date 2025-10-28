@@ -20,19 +20,17 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("PDP tests", () => {
     test('PDP test for addition to the cart via "Add to Cart" button. Expected to cart counter to be 1', async ({ }) => {
-        const removeButton = await productDetailPage.getRemoveButton()
         await productDetailPage.clickAddToCartButton()
-        await expect(header.cartIcon).toHaveText('1')
-        await expect(removeButton).toBeVisible()
-        await expect(removeButton).toHaveCSS('color', 'rgb(226, 35, 26)')
+        await productDetailPage.checkText(header.cartIcon, '1')
+        await productDetailPage.checkVisibility(productDetailPage.removeButton)
+        await productDetailPage.verifyCSS(productDetailPage.removeButton, 'color', 'rgb(226, 35, 26)')
     })
     test('PDP test for removal from the cart via "Remove" button. Expected the cart counter to disappear', async ({ }) => {
-        const addToCartButton = await productDetailPage.getAddToCartButton()
         await productDetailPage.clickAddToCartButton()
         await productDetailPage.clickRemoveButton()
-        await expect(header.cartIcon).toBeHidden()
-        await expect(addToCartButton).toBeVisible()
-        await expect(addToCartButton).toHaveCSS('color', 'rgb(19, 35, 34)')
+        await productDetailPage.checkHidden(header.cartIcon)
+        await productDetailPage.checkVisibility(productDetailPage.addToCartButton)
+        await productDetailPage.verifyCSS(productDetailPage.addToCartButton, 'color', 'rgb(19, 35, 34)')
     })
 })
 

@@ -1,5 +1,6 @@
 import test, { expect } from "@playwright/test"
 import { LoginPage } from "../pom/pages/LoginPage.ts"
+import BasePage from "../pom/BasePage.ts"
 
 let loginPage: LoginPage
 test.beforeEach(async ({ page }) => {
@@ -8,9 +9,9 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe("Successful Login with POM", () => {
-    test('Successful authorisation of a proper user with correct pair of credentials', async ({ page }) => {
+    test('Successful authorisation of a proper user with correct pair of credentials', async ({ }) => {
         await loginPage.loginWithCredentials('standard_user', 'secret_sauce')
-        await expect(page).toHaveURL('/inventory.html')
+        await loginPage.checkURL('/inventory.html')
     })
 })
 
@@ -18,35 +19,35 @@ test.describe("Unsuccessful Logins with Missing or Incorrect Data using POM", ()
     test('Submission of the login form without any login. Expected username error.', async ({ }) => {
         await loginPage.enterPassword('secret_sauce')
         await loginPage.clickLoginButton()
-        await expect(loginPage.userNameField).toHaveCSS('border-bottom-color', 'rgb(226, 35, 26)')
-        await expect(loginPage.errorMessage).toHaveText(/Username is required/)
-        await expect(loginPage.errorIconUsername).toBeVisible()
+        await loginPage.verifyCSS(loginPage.userNameField, 'border-bottom-color', 'rgb(226, 35, 26)')
+        await loginPage.checkText(loginPage.errorMessage, /Username is required/)
+        await loginPage.checkVisibility(loginPage.errorIconUsername)
     })
     test('Submission of the login form without any password. Expected password error.', async ({ }) => {
         await loginPage.enterUsername('standard_user')
         await loginPage.clickLoginButton()
-        await expect(loginPage.passwordField).toHaveCSS('border-bottom-color', 'rgb(226, 35, 26)')
-        await expect(loginPage.errorMessage).toHaveText(/Password is required/)
-        await expect(loginPage.errorIconUsername).toBeVisible()
+        await loginPage.verifyCSS(loginPage.passwordField, 'border-bottom-color', 'rgb(226, 35, 26)')
+        await loginPage.checkText(loginPage.errorMessage, /Password is required/)
+        await loginPage.checkVisibility(loginPage.errorIconUsername)
     })
     test('Submission of incorrect Username and Password in the login form. Expected not match error.', async ({ }) => {
         await loginPage.loginWithCredentials('standard_user', '123123123')
-        await expect(loginPage.errorMessage).toHaveText(/Username and password do not match/)
-        await expect(loginPage.userNameField).toHaveCSS('border-bottom-color', 'rgb(226, 35, 26)')
-        await expect(loginPage.passwordField).toHaveCSS('border-bottom-color', 'rgb(226, 35, 26)')
-        await expect(loginPage.errorIconUsername).toBeVisible()
-        await expect(loginPage.errorIconPassword).toBeVisible()
+        await loginPage.checkText(loginPage.errorMessage, /Username and password do not match/)
+        await loginPage.verifyCSS(loginPage.userNameField, 'border-bottom-color', 'rgb(226, 35, 26)')
+        await loginPage.verifyCSS(loginPage.passwordField, 'border-bottom-color', 'rgb(226, 35, 26)')
+        await loginPage.checkVisibility(loginPage.errorIconUsername)
+        await loginPage.checkVisibility(loginPage.errorIconPassword)
     })
 })
 
 test.describe("Login with other users data using POM", () => {
     test('Locked out user login attempt. Expected error that the user is locked out using POM', async ({ }) => {
         await loginPage.loginWithCredentials('locked_out_user', 'secret_sauce')
-        await expect(loginPage.errorMessage).toHaveText(/locked out/)
-        await expect(loginPage.userNameField).toHaveCSS('border-bottom-color', 'rgb(226, 35, 26)')
-        await expect(loginPage.passwordField).toHaveCSS('border-bottom-color', 'rgb(226, 35, 26)')
-        await expect(loginPage.errorIconUsername).toBeVisible()
-        await expect(loginPage.errorIconPassword).toBeVisible()
+        await loginPage.checkText(loginPage.errorMessage, /locked out/)
+        await loginPage.verifyCSS(loginPage.userNameField, 'border-bottom-color', 'rgb(226, 35, 26)')
+        await loginPage.verifyCSS(loginPage.passwordField, 'border-bottom-color', 'rgb(226, 35, 26)')
+        await loginPage.checkVisibility(loginPage.errorIconUsername)
+        await loginPage.checkVisibility(loginPage.errorIconPassword)
     })
 })
 /*test.describe("Successful Login without pom", () => {

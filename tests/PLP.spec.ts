@@ -19,9 +19,9 @@ test.describe("PLP tests", () => {
         let index = 0
         const removeButton = await productListingPage.removeButtonAssignment(index)
         await productListingPage.clickAddToCartButton(index)
-        await expect(header.cartIcon).toHaveText(`${index + 1}`)
-        await expect(removeButton).toBeVisible()
-        await expect(removeButton).toHaveCSS('color', 'rgb(226, 35, 26)')
+        await productListingPage.checkText(header.cartIcon, `${index + 1}`)
+        await productListingPage.checkVisibility(removeButton)
+        await productListingPage.verifyCSS(removeButton, 'color', 'rgb(226, 35, 26)')
     })
     test('PLP test for changing filters. Expected the product order to change based on the filter', async ({ }) => {
         await productListingPage.selectFilter('lohi')
